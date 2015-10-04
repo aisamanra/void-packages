@@ -5,8 +5,7 @@ revision=2
 build_style=cmake
 hostmakedepends=""
 makedepends="allegro4-devel pixman-devel curl giflib-devel zlib-devel libpng-devel tinyxml-devel gtest-devel git cmake libX11-devel perl"
-depends=""
-short_desc="A pixel art and animation tool."
+short_desc="A pixel art and animation tool"
 maintainer="Getty Ritter <gdritter@galois.com>"
 license="GPL-3"
 homepage="http://www.aseprite.org/"
@@ -14,10 +13,11 @@ distfiles=""
 checksum=""
 
 function do_fetch {
-  git clone "https://github.com/aseprite/aseprite.git" "-"
-  ( cd "-"
-    git checkout "tags/v"
-    git submodule init
-    git submodule update
-  )
+	git clone "https://github.com/aseprite/aseprite.git" "-"
+	(
+		cd "-"
+		git checkout "tags/v"
+		git submodule init
+		git submodule update
+	)
 }
