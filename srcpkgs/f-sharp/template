@@ -2,15 +2,8 @@
 pkgname=f-sharp
 version=4.0.0.3
 revision=1
-#wrksrc=
-#only_for_archs="i686 x86_64"
 create_wrksrc=yes
 build_style=gnu-configure
-#configure_args=""
-#make_build_args=""
-#make_install_args=""
-#conf_files=""
-#make_dirs="/var/log/dir 0755 root root"
 hostmakedepends="autoconf libtool pkg-config make automake mono"
 makedepends=""
 depends="mono"
@@ -23,9 +16,12 @@ checksum="d8a0f2e4504900d973532e1aa28c6758e8f2648898f85ef345437632b5ed1ed2"
 
 function do_extract {
 	mkdir -p ${wrksrc}
-	cp ${XBPS_SRCDISTDIR}/${pkgname}-${version}/${pkgname}-${version} ${wrksrc}/${curfile}
+	tar -x --no-same-permissions --no-same-owner \
+	  -f ${XBPS_SRCDISTDIR}/${pkgname}-${version}/${pkgname}-${version}.tar.gz \
+	  --strip-components=1 -C ${wrksrc}
 }
 
 function do_configure {
+	mozroots --import --sync
 	./autogen.sh --prefix /usr
 }
