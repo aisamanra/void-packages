@@ -1,0 +1,18 @@
+# Template file for 'owl-lisp'
+pkgname=owl-lisp
+version=0.1.8
+revision=1
+build_style=gnu-configure
+hostmakedepends=""
+makedepends=""
+depends=""
+short_desc="Simple, purely-functional lisp"
+maintainer="Getty Ritter <gettyritter@galois.com>"
+license="GPL-3"
+homepage="https://github.com/aoh/owl-lisp"
+distfiles="https://github.com/aoh/owl-lisp/archive/v0.1.8.tar.gz"
+checksum="5e0767da101a20a096f9fddda266b63e22be9eae41592d0ad8107f4009959e8e"
+
+function do_configure {
+    return 0;
+}

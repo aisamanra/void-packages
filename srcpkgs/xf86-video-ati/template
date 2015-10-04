@@ -1,7 +1,8 @@
 # Template build file for 'xf86-video-ati'.
 pkgname=xf86-video-ati
+reverts=7.5.0.99.1_1
 version=7.5.0
-revision=2
+revision=3
 lib32disabled=yes
 only_for_archs="i686 i686-musl x86_64 x86_64-musl"
 build_style=gnu-configure
@@ -10,7 +11,6 @@ hostmakedepends="pkg-config"
 makedepends="xf86driproto libudev-devel libpciaccess-devel
  libdrm-devel pixman-devel MesaLib-devel xorg-server-devel"
 depends="virtual?xserver-abi-video-19_1 mesa-ati-dri"
-replaces="xf86-video-ati>=0"
 short_desc="Xorg ATI Radeon video driver"
 maintainer="Juan RP <xtraeme@voidlinux.eu>"
 homepage="http://xorg.freedesktop.org"

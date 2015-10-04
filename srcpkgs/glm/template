@@ -1,6 +1,6 @@
 # Template file for 'glm'
 pkgname=glm
-version=0.9.6.3
+version=0.9.7.1
 revision=1
 noarch=yes
 hostmakedepends="unzip"
@@ -8,8 +8,8 @@ maintainer="Juan RP <xtraeme@voidlinux.eu>"
 license="MIT"
 short_desc="A C++ mathematics library for graphics programming"
 homepage="http://glm.g-truc.net"
-distfiles="${SOURCEFORGE_SITE}/ogl-math/glm-${version}.zip"
-checksum=14651b56b10fa68082446acaf6a1116d56b757c8d375b34b5226a83140acd2b2
+distfiles="https://github.com/g-truc/glm/releases/download/${version}/glm-${version}.zip"
+checksum=aa1a504e991bbe33a32f394de8d39d43cc800cbb3d99c2fa75b4a473eba606db
 wrksrc=${pkgname}
 
 do_install() {

@@ -1,6 +1,6 @@
 # Template build file for 'firefox-esr'.
 pkgname=firefox-esr
-version=38.2.1
+version=38.3.0
 revision=1
 wrksrc="mozilla-esr${version%%.*}"
 short_desc="Lightweight gecko-based web browser"
@@ -8,7 +8,7 @@ maintainer="Eivind Uggedal <eivind@uggedal.com>"
 homepage="https://www.mozilla.org/en-US/firefox/organizations/"
 license="MPL-1.1, GPL-2, LGPL-2.1"
 distfiles="${MOZILLA_SITE}/firefox/releases/${version}esr/source/firefox-${version}esr.source.tar.bz2"
-checksum=0143b3f99ccb390949d7f3847215f6f9b4bb7cd692f4f802921d2f9961bf270a
+checksum=809f65502d256568220c52bfe09646588f21653c8c487e8018b10ff87ca67f1c
 
 lib32disabled=yes
 
@@ -21,6 +21,17 @@ makedepends="nss-devel libjpeg-turbo-devel libpng-devel
  libXt-devel libXdamage-devel"
 depends="nss>=3.17 desktop-file-utils hicolor-icon-theme"
 conflicts="firefox>=0"
+
+if [ "$CROSS_BUILD" ]; then
+	# Make config/system_wrappers/alsa/alsalib.h and pulse/pulse.h find
+	# the required includes. Set system nspr and nss include paths.
+	CFLAGS="-I${XBPS_CROSS_BASE}/usr/include/alsa \
+		-I${XBPS_CROSS_BASE}/usr/include/pulse \
+		-I${XBPS_CROSS_BASE}/usr/include/nspr \
+		-I${XBPS_CROSS_BASE}/usr/include/nss"
+	CXXFLAGS="${CFLAGS}"
+	LDFLAGS="-L${XBPS_CROSS_BASE}/usr/lib"
+fi
 
 pre_configure() {
 	case "$XBPS_TARGET_MACHINE" in

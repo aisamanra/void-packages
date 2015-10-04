@@ -1,6 +1,6 @@
 # Template build file for 'tiff'.
 pkgname=tiff
-version=4.0.4
+version=4.0.6
 revision=1
 build_style=gnu-configure
 configure_args="--enable-cxx --without-x"
@@ -11,7 +11,7 @@ maintainer="Juan RP <xtraeme@voidlinux.eu>"
 license="BSD"
 homepage="http://www.remotesensing.org/libtiff/"
 distfiles="ftp://ftp.remotesensing.org/pub/libtiff/$pkgname-$version.tar.gz"
-checksum=8cb1d90c96f61cdfc0bcf036acc251c9dbe6320334da941c7a83cfe1576ef890
+checksum=4d57a50907b510e3049a4bba0d7888930fdfc16ce49f1bf693e5b6247370d68c
 
 pre_configure() {
 	autoreconf -fi

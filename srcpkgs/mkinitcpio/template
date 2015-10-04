@@ -1,10 +1,10 @@
 # Template file for 'mkinitcpio'
 pkgname=mkinitcpio
 version=18
-revision=4
+revision=7
 noarch=yes
 build_style=gnu-makefile
-depends="busybox-static bsdcpio"
+depends="busybox-static bsdcpio bash"
 short_desc="Next generation of initramfs creation"
 maintainer="Andrea Brancaleoni <miwaxe@gmail.com>"
 license="GPL-2"
@@ -69,5 +69,14 @@ mkinitcpio-mdadm_package() {
 		vinstall ${FILESDIR}/mdadm_hook 644 usr/lib/initcpio/hooks mdadm
 		vinstall ${FILESDIR}/mdadm_install 644 usr/lib/initcpio/install mdadm
 		vinstall ${FILESDIR}/mdadm_udev_install 644 usr/lib/initcpio/install mdadm_udev
+	}
+}
+
+mkinitcpio-xbps_package() {
+	depends="${sourcepkg}>=${version}_${revision} xbps"
+	short_desc+=" - xbps support"
+	noarch=yes
+	pkg_install() {
+		vinstall ${FILESDIR}/xbps_install 644 usr/lib/initcpio/install xbps
 	}
 }

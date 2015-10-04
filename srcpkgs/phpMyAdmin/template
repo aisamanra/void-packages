@@ -1,0 +1,24 @@
+# Template file for 'phpMyAdmin'
+pkgname=phpMyAdmin
+version=4.5.0
+revision=1
+create_wrksrc=yes
+noarch=yes
+build_style=fetch
+depends="php php-mysql"
+short_desc="Web-based MySQL database administration tool"
+maintainer="Steve Prybylski <sa.prybylx@gmail.com>"
+license="GPL-2"
+homepage="http://www.phpmyadmin.net"
+distfiles="https://files.phpmyadmin.net/phpMyAdmin/${version}/phpMyAdmin-${version}-all-languages.tar.gz>${pkgname}-${version}.tar.gz"
+checksum=e366dea91ee5068a20c066b30686fed41a000d8e2a2019121c97ca6b53e4c5e3
+
+do_install() {
+	tar -zxvf ${pkgname}-${version}.tar.gz
+	vmkdir usr/share/webapps
+	vcopy ${pkgname}-${version}-all-languages usr/share/webapps/phpmyadmin
+
+	vinstall ${FILESDIR}/apache.conf 644 /etc/phpmyadmin/
+	vinstall ${FILESDIR}/lighttpd.conf 644 /etc/phpmyadmin/
+}
+

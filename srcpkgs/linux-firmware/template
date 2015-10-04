@@ -1,6 +1,6 @@
 # Template file for 'linux-firmware'
 pkgname=linux-firmware
-version=20150726
+version=20150927
 revision=1
 noarch=yes
 short_desc="Binary firmware blobs for the Linux kernel"
@@ -11,7 +11,7 @@ hostmakedepends="git"
 depends="${pkgname}-amd-${version}_${revision} ${pkgname}-network-${version}_${revision}"
 
 do_fetch() {
-	local _githash="75cc3ef8ba6712fd"
+	local _githash="f88e5c2e2ff57026ce8028ba4dde8e7325f251a4"
 	local _url="git://git.kernel.org/pub/scm/linux/kernel/git/firmware/linux-firmware.git"
 	git clone ${_url} ${wrksrc}
 	cd ${wrksrc}
@@ -30,7 +30,7 @@ linux-firmware-amd_package() {
 	short_desc+=" - AMD CPU/GPU microcode"
 	noarch=yes
 	pkg_install() {
-		vmove usr/lib/firmware/amd-ucode
+		vmove usr/lib/firmware/amd*
 		vmove usr/lib/firmware/radeon
 		vmove usr/share/licenses/linux-firmware/LICENSE.amd-ucode
 		vmove usr/share/licenses/linux-firmware/LICENSE.radeon
@@ -49,7 +49,8 @@ linux-firmware-network_package() {
 		vmove usr/lib/firmware/brcm
 		vmove "usr/lib/firmware/cxgb*"
 		vmove "usr/lib/firmware/htc*"
-		vmove "usr/lib/firmware/i*"
+		vmove "usr/lib/firmware/iwl*"
+		vmove "usr/lib/firmware/intel*"
 		vmove usr/lib/firmware/kaweth
 		vmove usr/lib/firmware/libertas
 		vmove usr/lib/firmware/mrvl

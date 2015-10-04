@@ -1,0 +1,31 @@
+# Template file for 'f-sharp'
+pkgname=f-sharp
+version=4.0.0.3
+revision=1
+#wrksrc=
+#only_for_archs="i686 x86_64"
+create_wrksrc=yes
+build_style=gnu-configure
+#configure_args=""
+#make_build_args=""
+#make_install_args=""
+#conf_files=""
+#make_dirs="/var/log/dir 0755 root root"
+hostmakedepends="autoconf libtool pkg-config make automake mono"
+makedepends=""
+depends="mono"
+short_desc="A functional language for Mono"
+maintainer="Getty Ritter <gettyritter@gmail.com>"
+license="Apache"
+homepage="http://fsharp.org/"
+distfiles="https://github.com/fsharp/fsharp/archive/4.0.0.3.tar.gz>${pkgname}-${version}.tar.gz"
+checksum="d8a0f2e4504900d973532e1aa28c6758e8f2648898f85ef345437632b5ed1ed2"
+
+function do_extract {
+	mkdir -p ${wrksrc}
+	cp ${XBPS_SRCDISTDIR}/${pkgname}-${version}/${pkgname}-${version} ${wrksrc}/${curfile}
+}
+
+function do_configure {
+	./autogen.sh --prefix /usr
+}

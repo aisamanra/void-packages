@@ -1,7 +1,7 @@
 # Build template for 'base-system-busybox'.
 pkgname=base-system-busybox
 version=1.23.2
-revision=6
+revision=7
 wrksrc="busybox-${version}"
 homepage="http://www.busybox.net"
 hostmakedepends="perl"
@@ -19,7 +19,6 @@ conflicts="base-system>=0"
 #
 # XXX bzip2 provides libbz2, split it into libbz2 pkg.
 # XXX pgrep/pkill do not support -s0,1 required by runit-void.
-# XXX sysctl --system unsupported
 #
 _FEATURES="acpid coreutils cpio dash diffutils dosfstools findutils awk
 	grep gzip hdparm ifenslave iproute2 iputils less lsof netcat nvi
@@ -59,5 +58,5 @@ do_install() {
 	mv ${DESTDIR}/usr/sbin/* ${DESTDIR}/usr/bin
 	rm -f ${DESTDIR}/{,s}bin
 	# Provide /sbin/init symlink to runit.
-	ln -s /usr/bin/runit-init ${DESTDIR}/usr/bin/init
+	ln -s runit-init ${DESTDIR}/usr/bin/init
 }

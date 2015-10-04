@@ -1,18 +1,18 @@
 # Template file for 'rust'
 pkgname=rust
-version=1.2.0
+version=1.3.0
 revision=1
 wrksrc="rustc-${version/.beta/-beta}"
 lib32disabled=yes
 build_style=configure
-only_for_archs="x86_64 x86_64-musl i686 i686-musl"
+only_for_archs="x86_64"
 hostmakedepends="pkg-config curl python"
 short_desc="A safe, concurrent, practical systems language"
 maintainer="Juan RP <xtraeme@voidlinux.eu>"
 homepage="http://www.rust-lang.org/"
 license="MIT, Apache-2.0"
 distfiles="https://static.rust-lang.org/dist/rustc-${version/.beta/-beta}-src.tar.gz"
-checksum=ea6eb983daf2a073df57186a58f0d4ce0e85c711bec13c627a8c85d51b6a6d78
+checksum=ea02d7bc9e7de5b8be3fe6b37ea9b2bd823f9a532c8e4c47d02f37f24ffa3126
 
 do_configure() {
 	local _triplet
@@ -21,7 +21,7 @@ do_configure() {
 		x86_64*) _triplet=x86_64-unknown-linux-gnu;;
 		*) _triplet=$XBPS_TARGET_MACHINE;;
 	esac
-	./configure --musl-root=/usr --prefix=/usr --disable-docs --enable-ccache --build=${_triplet}
+	./configure --prefix=/usr --disable-docs --enable-ccache --build=${_triplet} --release-channel=stable
 }
 post_install() {
 	vlicense COPYRIGHT

@@ -1,43 +1,70 @@
 # Template file for 'firejail'
 pkgname=firejail
-version=0.9.26
+version=0.9.30
 revision=1
 build_style=gnu-configure
 build_pie=yes
 conf_files="
- /etc/firejail/transmission-qt.profile
- /etc/firejail/login.users
- /etc/firejail/dropbox.profile
- /etc/firejail/disable-secret.inc
- /etc/firejail/chromium.profile
- /etc/firejail/chromium-browser.profile
- /etc/firejail/iceweasel.profile
- /etc/firejail/firefox.profile
- /etc/firejail/evince.profile
- /etc/firejail/vlc.profile
- /etc/firejail/opera.profile
- /etc/firejail/transmission-gtk.profile
- /etc/firejail/disable-mgmt.inc
- /etc/firejail/midori.profile
- /etc/firejail/icedove.profile
- /etc/firejail/rhythmbox.profile
- /etc/firejail/gnome-mplayer.profile
  /etc/firejail/audacious.profile
- /etc/firejail/thunderbird.profile
+ /etc/firejail/chromium-browser.profile
+ /etc/firejail/chromium.profile
  /etc/firejail/clementine.profile
- /etc/firejail/totem.profile"
+ /etc/firejail/deadbeef.profile
+ /etc/firejail/deluge.profile
+ /etc/firejail/disable-common.inc
+ /etc/firejail/disable-history.inc
+ /etc/firejail/disable-mgmt.inc
+ /etc/firejail/disable-secret.inc
+ /etc/firejail/dropbox.profile
+ /etc/firejail/empathy.profile
+ /etc/firejail/evince.profile
+ /etc/firejail/filezilla.profile
+ /etc/firejail/firefox.profile
+ /etc/firejail/generic.profile
+ /etc/firejail/gnome-mplayer.profile
+ /etc/firejail/icecat.profile
+ /etc/firejail/icedove.profile
+ /etc/firejail/iceweasel.profile
+ /etc/firejail/login.users
+ /etc/firejail/midori.profile
+ /etc/firejail/opera.profile
+ /etc/firejail/pidgin.profile
+ /etc/firejail/qbittorrent.profile
+ /etc/firejail/quassel.profile
+ /etc/firejail/rhythmbox.profile
+ /etc/firejail/server.profile
+ /etc/firejail/thunderbird.profile
+ /etc/firejail/totem.profile
+ /etc/firejail/transmission-gtk.profile
+ /etc/firejail/transmission-qt.profile
+ /etc/firejail/vlc.profile
+ /etc/firejail/xchat.profile"
 short_desc="SUID security sandbox program"
-maintainer="Duncaen <mail@duncano.de>"
+maintainer="Duncaen <duncaen@voidlinux.eu>"
 license="GPL-2"
 homepage="https://l3net.wordpress.com/projects/firejail/"
 distfiles="${SOURCEFORGE_SITE}/${pkgname}/${pkgname}-${version}.tar.bz2"
-checksum=9195a15365ac73b7aa2c9816b94644e367f25ff58111b6786f94b27caf462561
+checksum=9239191492a8d309a8dcb1405bb1614d6d025ec6ab53277c5141cca3800b4fcd
 
 case "$XBPS_TARGET_MACHINE" in
 	arm*)
 		configure_args+=" --disable-seccomp"
 		;;
 esac
+
+pre_configure() {
+	case "$XBPS_TARGET_MACHINE" in
+	*-musl) # XXX: dirty hack - very limited stdio.h definitions
+		# to avoid redefinition of intercepted libc functions
+		cp ${FILESDIR}/musl_defs.h ${wrksrc}/src/libtrace
+		# Include our header instead of stdio.h and sys/stat.h
+		# Use struct stat instead of struct stat64 (they are equal)
+		sed -i ${wrksrc}/src/libtrace/libtrace.c \
+			-e 's;#include <stdio.h>;#include "musl_defs.h";' \
+			-e 's;#include <sys/stat.h>;;' \
+			-e 's;struct stat64;struct stat;g'
+	esac
+}
 
 pre_install() {
 	# remove hardcoded strip(1)

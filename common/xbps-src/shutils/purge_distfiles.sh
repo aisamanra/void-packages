@@ -25,7 +25,8 @@ purge_distfiles() {
 	fi
 	percent=-1
 	for template in ${templates[@]}; do
-		pkg="$(echo "$template" | cut -d / -f 2)"
+		pkg=${template#*/}
+		pkg=${pkg%/*}
 		if [ ! -L "srcpkgs/$pkg" ]; then
 			unset checksum
 			source $template 2>/dev/null
@@ -74,12 +75,12 @@ purge_distfiles() {
 	hashes=($XBPS_SRCDISTDIR/by_sha256/*)
 	readonly HASHLEN=64
 	for file in ${hashes[@]}; do
-		hash_distfile=$(basename "$file")
+		hash_distfile=${file##*/}
 		hash=${hash_distfile:0:$HASHLEN}
 		[ -n "${my_hashes[$hash]}" ] && continue
 		inode=$(stat "$file" --printf "%i")
 		echo "Obsolete $hash (inode: $inode)"
-		( IFS="|"; for f in ${inodes[$inode]}; do rm -v "$f"; done )
+		( IFS="|"; for f in ${inodes[$inode]}; do rm -v "$f"; rmdir ${f#/*} 2>/dev/null; done )
 	done
 	echo "Done."
 }

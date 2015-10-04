@@ -4,15 +4,17 @@
 #
 # Passed arguments:
 #	$1 - pkgname [REQUIRED]
+#   $2 - subpkg mode [REQUIRED]
 #	$2 - cross target [OPTIONAL]
 
-if [ $# -lt 1 -o $# -gt 2 ]; then
-    echo "$(basename $0): invalid number of arguments: pkgname [cross-target]"
+if [ $# -lt 2 -o $# -gt 3 ]; then
+    echo "${0##*/}: invalid number of arguments: pkgname subpkg-mode [cross-target]"
     exit 1
 fi
 
 PKGNAME="$1"
-XBPS_CROSS_BUILD="$2"
+SUBPKG_MODE="$2"
+XBPS_CROSS_BUILD="$3"
 
 for f in $XBPS_SHUTILSDIR/*.sh; do
     . $f
@@ -25,29 +27,25 @@ for f in $XBPS_COMMONDIR/environment/install/*.sh; do
 done
 
 XBPS_INSTALL_DONE="${XBPS_STATEDIR}/${sourcepkg}_${XBPS_CROSS_BUILD}_install_done"
-XBPS_PRE_INSTALL_DONE="${XBPS_STATEDIR}/${sourcepkg}_${XBPS_CROSS_BUILD}_pre_install_done"
-XBPS_POST_INSTALL_DONE="${XBPS_STATEDIR}/${sourcepkg}_${XBPS_CROSS_BUILD}_post_install_done"
 
 cd "$wrksrc" || msg_error "$pkgver: cannot access to wrksrc [$wrksrc]\n"
 if [ -n "$build_wrksrc" ]; then
     cd $build_wrksrc || msg_error "$pkgver: cannot access to build_wrksrc [$build_wrksrc]\n"
 fi
 
-if [ ! -f $XBPS_INSTALL_DONE ]; then
-    mkdir -p $XBPS_DESTDIR/$XBPS_CROSS_TRIPLET/$pkgname-$version
+if [ "$SUBPKG_MODE"  = "no" ]; then
+    if [ ! -f $XBPS_INSTALL_DONE ] || [ -f $XBPS_INSTALL_DONE -a -n "$XBPS_BUILD_FORCEMODE" ]; then
+        mkdir -p $XBPS_DESTDIR/$XBPS_CROSS_TRIPLET/$pkgname-$version
 
-    run_pkg_hooks pre-install
+        # Run pre-install hooks
+        run_pkg_hooks pre-install
 
-    # Run pre_install()
-    if [ ! -f $XBPS_PRE_INSTALL_DONE ]; then
+        # Run pre_install()
         if declare -f pre_install >/dev/null; then
             run_func pre_install
-            touch -f $XBPS_PRE_INSTALL_DONE
         fi
-    fi
 
-    # Run do_install()
-    if [ ! -f $XBPS_INSTALL_DONE ]; then
+        # Run do_install()
         cd "$wrksrc"
         [ -n "$build_wrksrc" ] && cd $build_wrksrc
         if declare -f do_install >/dev/null; then
@@ -59,17 +57,14 @@ if [ ! -f $XBPS_INSTALL_DONE ]; then
             . $XBPS_BUILDSTYLEDIR/${build_style}.sh
             run_func do_install
         fi
-        touch -f $XBPS_INSTALL_DONE
-    fi
-
-    # Run post_install()
-    if [ ! -f $XBPS_POST_INSTALL_DONE ]; then
+        # Run post_install()
         cd "$wrksrc"
         [ -n "$build_wrksrc" ] && cd $build_wrksrc
         if declare -f post_install >/dev/null; then
             run_func post_install
-            touch -f $XBPS_POST_INSTALL_DONE
         fi
+
+        touch -f $XBPS_INSTALL_DONE
     fi
     exit 0
 fi

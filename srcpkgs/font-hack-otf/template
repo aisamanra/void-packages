@@ -1,0 +1,24 @@
+# Template file for 'font-hack-otf'
+pkgname=font-hack-otf
+version=2.015
+revision=1
+wrksrc=Hack-${version}
+noarch="yes"
+short_desc="A typeface designed for source code - OTF format"
+maintainer="Diogo Leal <diogo@diogoleal.com>"
+license="Hack Open Font License"
+depends="font-util xbps-triggers"
+hostmakedepends="unzip"
+font_dirs="/usr/share/fonts/OTF"
+homepage="http://sourcefoundry.org/hack/"
+distfiles="https://github.com/chrissimpkins/Hack/archive/v${version}.tar.gz"
+checksum=67b19be989f1af2feb82db958841a278756f1f5b22b052210c964e5049638353
+
+do_install() {
+	vmkdir usr/share/fonts/OTF
+ 	vinstall build/otf/Hack-Bold.otf 644 usr/share/fonts/OTF
+ 	vinstall build/otf/Hack-BoldItalic.otf 644 usr/share/fonts/OTF
+ 	vinstall build/otf/Hack-Italic.otf 644 usr/share/fonts/OTF
+ 	vinstall build/otf/Hack-Regular.otf 644 usr/share/fonts/OTF
+	vlicense LICENSE.md
+}

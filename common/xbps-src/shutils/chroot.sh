@@ -32,8 +32,8 @@ XBPS_SRC_VERSION="$XBPS_SRC_VERSION"
 
 PATH=/void-packages:/usr/bin:/usr/sbin
 
-exec env -i PATH="\$PATH" DISTCC_HOSTS="\$XBPS_DISTCC_HOSTS" DISTCC_DIR="/host/distcc" @@XARCH@@ \
-    CCACHE_DIR="/host/ccache" IN_CHROOT=1 LANG=en_US.UTF-8 TERM=linux HOME="/tmp" \
+exec env -i SHELL=/bin/sh PATH="\$PATH" DISTCC_HOSTS="\$XBPS_DISTCC_HOSTS" DISTCC_DIR="/host/distcc" @@XARCH@@ \
+    CCACHE_DIR="/host/ccache" IN_CHROOT=1 LC_COLLATE=C LANG=en_US.UTF-8 TERM=linux HOME="/tmp" \
     PS1="[\u@$XBPS_MASTERDIR \W]$ " /bin/bash +h
 _EOF
     if [ -n "$XBPS_ARCH" ]; then
@@ -61,11 +61,6 @@ _EOF
         fi
     else
         rm -f $XBPS_MASTERDIR/etc/xbps.d/00-repository-alternative.conf
-    fi
-
-    if [ -d $XBPS_MASTERDIR/tmp ]; then
-        rm -rf $XBPS_MASTERDIR/tmp
-        mkdir -p $XBPS_MASTERDIR/tmp
     fi
 }
 
@@ -202,7 +197,8 @@ chroot_handler() {
         [ -n "$XBPS_BINPKG_EXISTS" ] && arg="$arg -E"
 
         action="$arg $action"
-        env -i PATH="/usr/bin:/usr/sbin:$PATH" HOME=/tmp IN_CHROOT=1 LANG=en_US.UTF-8 \
+        env -i PATH="/usr/bin:/usr/sbin:$PATH" SHELL=/bin/sh \
+            HOME=/tmp IN_CHROOT=1 LC_COLLATE=C LANG=en_US.UTF-8 \
             $XBPS_COMMONDIR/chroot-style/${XBPS_CHROOT_CMD:=uunshare}.sh \
             $XBPS_MASTERDIR $XBPS_DISTDIR "$XBPS_HOSTDIR" "$XBPS_CHROOT_CMD_ARGS" \
             /void-packages/xbps-src $action $pkg

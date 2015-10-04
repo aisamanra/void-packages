@@ -1,21 +1,19 @@
 # Template file for 'pixz'
 pkgname=pixz
-version=1.0.2
-revision=2
-hostmakedepends="asciidoc git"
+version=1.0.5
+revision=1
+build_pie=yes
+build_style=gnu-configure
+configure_args="ac_cv_file_src_pixz_1=no"
+hostmakedepends="automake libtool pkg-config asciidoc"
 makedepends="liblzma-devel libarchive-devel"
 short_desc="A parallel, indexing version of XZ"
 maintainer="Juan RP <xtraeme@voidlinux.eu>"
 license="2-clause-BSD"
 homepage="https://github.com/vasi/pixz"
 distfiles="https://github.com/vasi/pixz/archive/v$version.tar.gz"
-checksum=38bbb3a8b407bcaeadb5473f44acc38c6bf6ecd92171b231d71029a593646c88
+checksum=2f7fa5eb79d9e18bcbcdb22c88f437c0a4e83f5996b71923a69daf12aa64d0e2
 
-do_build() {
-	make CC="$CC" CFLAGS="$CFLAGS" LDFLAGS="-lm $LDFLAGS" ${makejobs}
-	a2x -f manpage pixz.1.asciidoc
-}
-do_install() {
-	vbin pixz
-	vman pixz.1
+pre_configure() {
+	NOCONFIGURE=1 ./autogen.sh
 }

@@ -1,6 +1,6 @@
 # Template file for 'powerstat'
 pkgname=powerstat
-version=0.02.03
+version=0.02.05
 revision=1
 build_style=gnu-makefile
 short_desc="Measures the power consumption using the ACPI battery information"
@@ -8,7 +8,7 @@ maintainer="Enno Boland <gottox@voidlinux.eu>"
 license="GPL-2"
 homepage="http://kernel.ubuntu.com/~cking/powerstat/"
 distfiles="http://kernel.ubuntu.com/~cking/tarballs/powerstat/powerstat-${version}.tar.gz"
-checksum=02ab05cdd439c95df1553e87165b3f76f00f00142b2be74f7461e3b1c1efc41e
+checksum=101d46e98200599bcfaa61f1ca63b3943aa2aac8fa27b5b6495b586f3c3d18ee
 
 do_build() {
 	make CC=$CC ${makejobs}

@@ -7,7 +7,7 @@
 #	$2 - cross target [OPTIONAL]
 
 if [ $# -lt 1 -o $# -gt 2 ]; then
-    echo "$(basename $0): invalid number of arguments: pkgname [cross-target]"
+    echo "${0##*/}: invalid number of arguments: pkgname [cross-target]"
     exit 1
 fi
 
@@ -27,7 +27,7 @@ done
 
 XBPS_PREPKG_DONE="${XBPS_STATEDIR}/${PKGNAME}_${XBPS_CROSS_BUILD}_prepkg_done"
 
-if [ -f $XBPS_PREPKG_DONE ]; then
+if [ -z "$XBPS_BUILD_FORCEMODE" -a -f $XBPS_PREPKG_DONE ]; then
     exit 0
 fi
 

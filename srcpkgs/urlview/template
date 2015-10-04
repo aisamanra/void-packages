@@ -1,0 +1,28 @@
+# Template build file for 'urlview'
+pkgname=urlview
+version=0.9
+revision=3
+build_pie=yes
+build_style=gnu-configure
+hostmakedepends="automake ncurses-devel"
+makedepends="bash"
+homepage="FIXME"
+short_desc="FIXME"
+maintainer="Getty Ritter <getty.ritter@gmail.com>"
+license="GPL"
+distfiles="$DEBIAN_SITE/main/u/urlview/${pkgname}_${version}.orig.tar.gz>${pkgname}-${version}.tar.gz $DEBIAN_SITE/main/u/urlview/${pkgname}_${version}-19.diff.gz"
+checksum="746ff540ccf601645f500ee7743f443caf987d6380e61e5249fc15f7a455ed42 056883c17756f849fb9235596d274fbc5bc0d944fcc072bdbb13d1e828301585"
+
+function post_extract {
+    mv ${wrksrc}.orig ${wrksrc}
+    ( cd ${wrksrc}
+      patch -Np1 -i ../${pkgname}_${version}-19.diff
+      aclocal
+      automake --foreign --ignore-deps --add-missing
+    )
+}
+
+function post_install {
+    install -Dm755 ${wrksrc}/url_handler.sh ${DESTDIR}/etc/urlview/url_handler.sh
+    ln -fs /etc/urlview/url_handler.sh ${DESTDIR}/usr/bin/url_handler.sh
+}

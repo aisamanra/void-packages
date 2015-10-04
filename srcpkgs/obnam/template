@@ -1,6 +1,6 @@
 # Template file for 'obnam'
 pkgname=obnam
-version=1.15
+version=1.17
 revision=1
 build_style=python-module
 makedepends="python-devel python-larch python-paramiko"
@@ -12,4 +12,4 @@ maintainer="Eivind Uggedal <eivind@uggedal.com>"
 homepage="http://obnam.org"
 license="GPL-3"
 distfiles="http://code.liw.fi/debian/pool/main/o/${pkgname}/${pkgname}_${version}.orig.tar.xz"
-checksum=9d20f2e5f0e09faed0c2b1d93cca40b916e815b0c42085c60253dc9cb1f1fbf2
+checksum=7bcc543828e8615d0ff0e85f31334eac5d11b3fe38e885d52f3ba97c80a20106

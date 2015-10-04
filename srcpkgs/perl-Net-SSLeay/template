@@ -1,15 +1,15 @@
 # Template build file for 'perl-Net-SSLeay'.
 pkgname=perl-Net-SSLeay
-version=1.70
-revision=3
+version=1.72
+revision=1
 wrksrc="${pkgname/perl-/}-${version}"
 build_style=perl-module
 hostmakedepends="perl libressl-openssl"
 makedepends="perl zlib-devel libressl-devel"
-depends="perl>=5.20"
+depends="perl"
 short_desc="Net::SSLeay - Perl extension for using OpenSSL"
 maintainer="Christian Neukirchen <chneukirchen@gmail.com>"
 homepage="http://search.cpan.org/dist/Net-SSLeay/"
-license="BSD"
+license="Artistic, GPL-1"
 distfiles="${CPAN_SITE}/Net/${pkgname/perl-/}-$version.tar.gz"
-checksum=05eaaa29b8f67778040eee53150ba702fc0ce49420ddd0f1ca68d082f4ee9f4a
+checksum=1baac39f0f12cee515d8bec633175bb5916ca542e5356e26420437bd6195d2f4

@@ -1,7 +1,7 @@
 # Template file for 'chromium-pepper-flash'
 pkgname=chromium-pepper-flash
-version=18.0.0.233
-_chromeVersion=44.0.2403.157-1
+version=19.0.0.185
+_chromeVersion=45.0.2454.101-1
 _channel='stable'
 _baseUrl='http://dl.google.com/linux/chrome/deb/pool/main/g/google-chrome-stable'
 revision=2
@@ -18,11 +18,11 @@ create_wrksrc=yes
 case "${XBPS_TARGET_MACHINE}" in
 x86_64)
 	_filename=google-chrome-${_channel}_${_chromeVersion}_amd64.deb
-	_chromeChecksum="e39bb092d7212e90357271af5212aeba3e8727ff0b94b151fb2bf31b7ac0e109"
+	_chromeChecksum="f22f41e2ab4af3d0ef4b88f47abcf9fbcd9e9ec5e0a1ecb275cbb673ec688bb3"
 	;;
 i686)
 	_filename=google-chrome-${_channel}_${_chromeVersion}_i386.deb
-	_chromeChecksum="78bde46ac1fceb08ea1dc848d63a69300df388cc723a4cb3fe50a6240c590e5b"
+	_chromeChecksum="a5f2275d59b9bf49f094c62ce6a60610be5826cf96edf09525679f5e67a588d2"
 	;;
 esac
 _chromeUrl="${_baseUrl}/${_filename}"

@@ -31,8 +31,11 @@ packages for XBPS, the `Void Linux` native packaging system.
 	* [32bit packages](#32bit_pkgs)
 	* [Subpackages](#pkgs_sub)
 	* [Development packages](#pkgs_development)
+	* [Data packages](#pkgs_data)
+	* [Documentation packages](#pkgs_documentation)
 	* [Python packages](#pkgs_python)
 	* [Go packages](#pkgs_go)
+	* [Haskell packages](#pkgs_haskell)
 	* [Notes](#notes)
 	* [Contributing via git](#contributing)
 * [Help](#help)
@@ -246,7 +249,8 @@ The optional 4th argument can be used to change the `file name`.
 
 	Installs `file` into `usr/share/licenses/<pkgname>` in the pkg
 	`$DESTDIR`. The optional 2nd argument can be used to change the
-	`file name`.
+	`file name`. Note: Non-`GPL` licenses, `MIT`, `BSD` and `ISC` require the 
+	license file to	be supplied with the binary package.
 
 - *vsv()* `vsv <service>`
 
@@ -971,6 +975,42 @@ If a development package provides a `pkg-config` file, you should verify
 what dependencies the package needs for dynamic or static linking, and add
 the appropriate `development` packages as dependencies.
 
+Development packages for the C and C++ languages usually `vmove` the
+following subset of files from the main package:
+
+    * Header files `usr/include`
+    * Static libraries `usr/lib/*.a`
+    * Shared library symbolic links `usr/lib/*.so`
+    * Cmake rules `usr/lib/cmake`
+    * Package config files `usr/lib/pkgconfig`
+
+<a id="pkgs_data"></a>
+### Data packages
+
+Another common subpackage type is the `-data` subpackage. This subpackage
+type used to split architecture independent, big(ger) or huge amounts
+of data from a package's main and architecture dependent part. It is up
+to you to decide, if a `-data` subpackage makes sense for your package.
+This type is common for games (graphics, sound and music), part libraries (CAD)
+or card material (maps). Data subpackages are almost always `noarch=yes`.
+The main package must then have `depends="${pkgname}-data-${version}_${revision}"`,
+possibly in addition to other, non-automatic depends.
+
+<a id="pkgs_documentation"></a>
+### Documentation packages
+
+Packages intended for user interaction do not always unconditionally require
+their documentation part. A user who does not want to e.g. develop
+with Qt5 will not need to install the (huge) qt5-doc package.
+An expert may not need it or opt to use an online version.
+
+In general a `-doc` package is useful, if the main package can be used both with
+or without documentation and the size of the documentation isn't really small.
+The base package and the `-devel` subpackage should be kept small so that when
+building packages depending on a specific package there is no need to install large
+amounts of documentation for no reason. Thus the size of the documentation part should
+be your guidance to decide whether or not to split off a `-doc` subpackage.
+
 <a id="pkgs_python"></a>
 ### Python packages
 
@@ -1025,6 +1065,22 @@ The following variables influence how Go packages are built:
   will be downloaded with `go get`. Otherwise, a distfile has to be
   provided. This option should only be used with `-git` (or similar)
   packages; using a versioned distfile is preferred.
+
+<a id="pkgs_haskell"></a>
+### Haskell packages
+
+We build Haskell package using `stack` from
+[Stackage](http://www.stackage.org/), generally the LTS versions.
+Haskell templates need to have host dependencies on `ghc` and `stack`,
+and set build style to `haskell-stack`.
+
+The following variables influence how Haskell packages are built:
+
+- `stackage`: The Stackage version used to build the package, e.g.
+  `lts-3.5`.  Alternatively, you can prepare a `stack.yaml`
+  configuration for the project and put it into `files/stack.yaml`.
+- `make_build_args`: This is passed as-is to `stack build ...`, so
+  you can add your `--flag ...` parameters there.
 
 <a id="notes"></a>
 ### Notes
